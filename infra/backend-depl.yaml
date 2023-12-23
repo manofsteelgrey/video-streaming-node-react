@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-video-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-video
+  template:
+    metadata:
+      labels:
+        app: node-video
+    spec:
+      containers:
+        - name: node-video
+          image: samtwin2020/node-video
+          ports:
+            - containerPort: 4000
+              name: http-node-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-video-srv
+spec:
+  selector:
+    app: node-video
+  ports:
+    - name: node-video
+      protocol: TCP
+      port: 4000
+      targetPort: http-node-svc

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-video-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-video
+  template:
+    metadata:
+      labels:
+        app: react-video
+    spec:
+      containers:
+        - name: react-video
+          image: samtwin2020/react-video
+          ports:
+            - containerPort: 3000
+              name: http-react-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-video-srv
+spec:
+  selector:
+    app: react-video
+  ports:
+    - name: react-video
+      protocol: TCP
+      port: 3000
+      targetPort: http-react-svc
